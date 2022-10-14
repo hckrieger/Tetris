@@ -1,0 +1,4 @@
+Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
+"C:/Users/hunte/source/repos/MonoGame/games/Tetris/Content/Fonts/DebugFont.spritefont","C:/Users/hunte/source/repos/MonoGame/games/Tetris/Content/bin/DesktopGL/Content/Fonts/DebugFont.xnb","FontDescriptionProcessor","SpriteFontContent",2008,21535,0.2563035
+"C:/Users/hunte/source/repos/MonoGame/games/Tetris/Content/Sprites/blocks@7x1.png","C:/Users/hunte/source/repos/MonoGame/games/Tetris/Content/bin/DesktopGL/Content/Sprites/blocks@7x1.xnb","TextureProcessor","Texture2DContent",295,28757,0.1094773
+"C:/Users/hunte/source/repos/MonoGame/games/Tetris/Content/Sprites/playingField.png","C:/Users/hunte/source/repos/MonoGame/games/Tetris/Content/bin/DesktopGL/Content/Sprites/playingField.xnb","TextureProcessor","Texture2DContent",2184,819285,0.1741002
