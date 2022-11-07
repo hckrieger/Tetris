@@ -32,6 +32,8 @@ namespace Tetris.LevelObjects
             LocalPosition = level.GetCellPosition(gridPosition.X, gridPosition.Y);
         }
 
+       
+
         public bool CanMoveInDirection(Point direction)
         {
             if (!Active || !Visible)
@@ -64,6 +66,23 @@ namespace Tetris.LevelObjects
 
             level.RemoveBlockFromGrid(previousPosition);
             ApplyCurrentPosition();
+        }
+
+        public int GetDropDistance()
+        {
+            int distance = 0;
+            Point dropDirection = new Point(0, 1);
+            Point positionProbe = gridPosition;
+
+            while (CanMoveInDirection(dropDirection))
+            {
+                distance++;
+                gridPosition += dropDirection;
+            }
+
+            gridPosition = positionProbe;
+
+            return distance;
         }
     }
 }

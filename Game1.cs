@@ -13,6 +13,8 @@ namespace Tetris
         public Game1()
         {
             IsMouseVisible = true;
+            windowSize = new Point(620, 740);
+            worldSize = new Point(620, 740);
         }
 
         protected override void LoadContent()
