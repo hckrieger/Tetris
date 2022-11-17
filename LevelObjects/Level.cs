@@ -83,14 +83,14 @@ namespace Tetris.LevelObjects
         {
             base.Update(gameTime);
 
-
+            debugFont.Text = $"Level: {level}\ntarget rows: {targetRowsToClear}\ntimer: {descensionTimer}";
             if (shape != null && shape.CurrentShapeState == Shape.ShapeState.ShapeDisabled)
             {
                 RemoveShape();
 
                 for (int y = GridHeight - 1; y >= 0; y--)
                     for (int x = 0; x < GridWidth; x++)
-                        DetectHorizontalMatch(y);
+                        DetectHorizontalMatch(x, y);
 
 
                 if (CurrentProcess != Process.Paused && rowsCleared == 0)
@@ -122,24 +122,18 @@ namespace Tetris.LevelObjects
                         for (int x = 0; x < GridWidth; x++)
                         {
                             if (blockGrid[x, y] != null && blockGrid[x, y].Color != Color.White)
-                            {
                                 blockGrid[x, y] = null;
-                            }
                         }
                     }
 
                     for (int y = GridHeight - 1; y >= 0; y--)
-                    {
                         for (int x = 0; x < GridWidth; x++)
-                        {
                             MoveDown(x, y);
 
-                            AddToScore();
+                      
+                    totalRowsCleared += rowsCleared;
 
-                            totalRowsCleared += rowsCleared;
-
-                        }
-                    }
+                    AddToScore();
 
                     if (totalRowsCleared >= targetRowsToClear)
                     {
@@ -184,7 +178,7 @@ namespace Tetris.LevelObjects
 
         }
 
-        void DetectHorizontalMatch(int y)
+        void DetectHorizontalMatch(int x, int y)
         {
  
             for (int i = 0; i < GridWidth; i++)
@@ -195,12 +189,12 @@ namespace Tetris.LevelObjects
 
             for (int i = 0; i < GridWidth; i++)
             {
-                blockGrid[i, y].Color = Color.DimGray;
+                blockGrid[i, y].Color = Color.LightGray;
 
             }
 
-
-            rowsCleared++;
+            if (x == 0)
+                rowsCleared++;
         }
 
         void MoveDown(int x, int y)

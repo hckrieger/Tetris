@@ -156,13 +156,31 @@ namespace Tetris.LevelObjects
 
                 int minDistance = dropDistances[0];
 
-                for (int x = 0; x < 4; x++)
-                {
-                    Blocks[x].MoveInDirection(new Point(0, minDistance));
 
-                }
-                timer = 0;
-                level.Score += 2 * minDistance;
+                    if (Blocks[0].gridPosition.Y > Blocks[3].gridPosition.Y)
+                    {
+                        for (int i = 0; i < 4; i++)
+                            Blocks[i].MoveInDirection(new Point(0, minDistance));
+                    }
+                    else
+                    {
+                        if (blockIndex == 5 && rotationIndex == 3)
+                        {
+                            int[] newOrder = { 0, 3, 1, 2 };
+                            for (int x = 0; x < newOrder.Length; x++)
+                                Blocks[newOrder[x]].MoveInDirection(new Point(0, minDistance));
+                        }
+                        else
+                        {
+                            for (int i = 3; i >= 0; i--)
+                                Blocks[i].MoveInDirection(new Point(0, minDistance));
+                        }
+                    }
+
+                    timer = 0;
+                    level.Score += 2 * minDistance;
+                
+
 
             }
 
