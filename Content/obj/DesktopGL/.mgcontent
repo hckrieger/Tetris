@@ -5,10 +5,12 @@
   <Config />
   <SourceFiles>
     <File>C:/Users/hunte/source/repos/MonoGame/games/Tetris/Content/Fonts/DebugFont.spritefont</File>
+    <File>C:/Users/hunte/source/repos/MonoGame/games/Tetris/Content/Fonts/Score.spritefont</File>
     <File>C:/Users/hunte/source/repos/MonoGame/games/Tetris/Content/Sprites/blocks@7x1.png</File>
     <File>C:/Users/hunte/source/repos/MonoGame/games/Tetris/Content/Sprites/playingField.png</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

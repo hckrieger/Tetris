@@ -28,3 +28,4 @@ C:\Users\hunte\source\repos\MonoGame\games\Tetris\obj\Debug\net6.0\ref\Tetris.dl
 C:\Users\hunte\source\repos\MonoGame\games\Tetris\bin\Debug\net6.0\Content\Sprites\playingField.xnb
 C:\Users\hunte\source\repos\MonoGame\games\Tetris\bin\Debug\net6.0\Content\Fonts\DebugFont.xnb
 C:\Users\hunte\source\repos\MonoGame\games\Tetris\bin\Debug\net6.0\Content\Sprites\blocks@7x1.xnb
+C:\Users\hunte\source\repos\MonoGame\games\Tetris\bin\Debug\net6.0\Content\Fonts\Score.xnb

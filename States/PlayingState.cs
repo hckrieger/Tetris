@@ -13,9 +13,9 @@ namespace Tetris.States
         Level level;
         public PlayingState()
         {
-            level = new Level();
+            //level = new Level();
 
-            gameObjects.AddChild(level);
+            //gameObjects.AddChild(level);
         }
     }
 }

@@ -15,6 +15,7 @@ namespace Tetris.LevelObjects
         public Point gridPosition { get; set; }
         Level level;
         public bool LockedIn { get; set; }
+
         public Block(Level level, Point gridPosition, int spriteIndex) : base("Sprites/blocks@7x1", .5f, spriteIndex)
         {
             this.gridPosition = gridPosition;
@@ -32,13 +33,14 @@ namespace Tetris.LevelObjects
             LocalPosition = level.GetCellPosition(gridPosition.X, gridPosition.Y);
         }
 
-       
+
+
 
         public bool CanMoveInDirection(Point direction)
         {
             if (!Active || !Visible)
                 return false;
-            
+
             Point nextPosition = gridPosition + direction;
             //Block nextBlock = level.GetBlock(nextPosition);
 
@@ -48,13 +50,13 @@ namespace Tetris.LevelObjects
 
 
 
-                 if (level.PositionHasBlock(nextPosition) && level.GetBlock(nextPosition).LockedIn)
-                    return false;
-            
+            if (level.PositionHasBlock(nextPosition) && level.GetBlock(nextPosition).LockedIn)
+                return false;
+
 
 
             return true;
-                
+
         }
 
         public void MoveInDirection(Point direction)
@@ -62,7 +64,7 @@ namespace Tetris.LevelObjects
             Point previousPosition = gridPosition;
 
             gridPosition += direction;
-          
+
 
             level.RemoveBlockFromGrid(previousPosition);
             ApplyCurrentPosition();

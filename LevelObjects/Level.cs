@@ -2,15 +2,17 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Tetris.LevelObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Tetris.LevelObjects
 {
-    internal class Level : GameObjectList
+    internal class Level : GameState
     {
         SpriteGameObject playingFieldBackground = new SpriteGameObject("Sprites/playingField", .25f);
         GameObjectList playingField = new GameObjectList();
@@ -24,13 +26,27 @@ namespace Tetris.LevelObjects
         int targetRowsToClear;
         int level;
         float descensionTimer;
+        int rowsCleared = 0;
+        int spacesBelow = 0;
+        float startRowMatchDetectionTimer, rowMatchDetectionTimer = .5f;
 
         public int GridWidth { get { return blockGrid.GetLength(0); } }
         public int GridHeight { get { return blockGrid.GetLength(1); } }
         
         Shape shape;
 
-        bool isRunning = false;
+        TextGameObject scoreFont = new TextGameObject("Fonts/Score", 1f, Color.White, TextGameObject.Alignment.Center);
+        TextGameObject levelFont = new TextGameObject("Fonts/Score", 1f, Color.White, TextGameObject.Alignment.Center);
+        TextGameObject linesFont = new TextGameObject("Fonts/Score", 1f, Color.White, TextGameObject.Alignment.Center);
+
+        public Process CurrentProcess { get; set; }
+        
+        public enum Process
+        {
+            Running,
+            Stopped,
+            Paused,
+        }
 
         public int Score { get; set; }
 
@@ -44,13 +60,22 @@ namespace Tetris.LevelObjects
 
             blockGrid = new Block[10, 20];
 
-            AddChild(debugFont);
+            startRowMatchDetectionTimer = rowMatchDetectionTimer;
 
-            AddChild(playingField);
+            gameObjects.AddChild(debugFont);
 
+            gameObjects.AddChild(playingField);
 
             Reset();
 
+            gameObjects.AddChild(scoreFont);
+            scoreFont.LocalPosition = new Vector2(500, 100);
+
+            gameObjects.AddChild(levelFont);
+            levelFont.LocalPosition = new Vector2(500, 300);
+
+            gameObjects.AddChild(linesFont);
+            linesFont.LocalPosition = new Vector2(500, 500);
 
         }
 
@@ -58,63 +83,89 @@ namespace Tetris.LevelObjects
         {
             base.Update(gameTime);
 
-            //debugFont.Text = $"Target Rows to Clear: {targetRowsToClear} \n Rows Cleared: {totalRowsCleared} \n Timer: {descensionTimer}";
-            debugFont.Text = $"Score: {Score}";
 
             if (shape != null && shape.CurrentShapeState == Shape.ShapeState.ShapeDisabled)
             {
                 RemoveShape();
 
-                int rowsCleared = 0;
-                int spacesBelow = 0;
-
                 for (int y = GridHeight - 1; y >= 0; y--)
-                {
                     for (int x = 0; x < GridWidth; x++)
+                        DetectHorizontalMatch(y);
+
+
+                if (CurrentProcess != Process.Paused && rowsCleared == 0)
+                {
+                    if (PositionHasBlock(new Point(5, 0)) ||
+                         PositionHasBlock(new Point(6, 0)))
                     {
-                        DetectHorizontalMatch(0, y, ref rowsCleared);
-                        
-                        
-                        if (rowsCleared > 0)
-                        {
-                            MoveDown(x, y, ref spacesBelow);
-                        }
+                        //if (isRunning)
+                        //   LoadShape();
+
+                        CurrentProcess = Process.Stopped;
+
+                    }
+                    else
+                    {
+                        LoadShape();
                     }
                 }
+            }
 
-                AddToScore(ref rowsCleared);
+            if (rowsCleared > 0)
+            {
+                rowMatchDetectionTimer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-                totalRowsCleared += rowsCleared;
-
-
-                if (totalRowsCleared >= targetRowsToClear)
+                if (rowMatchDetectionTimer <= 0)
                 {
-                    targetRowsToClear += 10;
-                    level++;
-                    descensionTimer -= .0425f;
-                }
+                    for (int y = GridHeight - 1; y >= 0; y--)
+                    {
+                        for (int x = 0; x < GridWidth; x++)
+                        {
+                            if (blockGrid[x, y] != null && blockGrid[x, y].Color != Color.White)
+                            {
+                                blockGrid[x, y] = null;
+                            }
+                        }
+                    }
 
-                if ((PositionHasBlock(new Point(5, 0)) ||
-                    PositionHasBlock(new Point(6, 0))))
-                {
-                     //if (isRunning)
-                     //   LoadShape();
+                    for (int y = GridHeight - 1; y >= 0; y--)
+                    {
+                        for (int x = 0; x < GridWidth; x++)
+                        {
+                            MoveDown(x, y);
 
-                    isRunning = false;
-                    
-                } else
-                {
+                            AddToScore();
+
+                            totalRowsCleared += rowsCleared;
+
+                        }
+                    }
+
+                    if (totalRowsCleared >= targetRowsToClear)
+                    {
+                        targetRowsToClear += 10;
+                        level++;
+                        descensionTimer -= .0425f;
+                    }
+
+                    spacesBelow = 0;
+                    rowsCleared = 0;
+                    rowMatchDetectionTimer = startRowMatchDetectionTimer;
                     LoadShape();
                 }
-                
-            }
+
+            } 
+
+            scoreFont.Text = $"Score: \n   {Score}";
+            levelFont.Text = $"Level: \n   {level}";
+            linesFont.Text = $"Lines: \n   {totalRowsCleared}";
         }
 
         public override void HandleInput(InputHelper inputHelper)
         {
             base.HandleInput(inputHelper);
 
-            if (!isRunning && inputHelper.KeyPressed(Keys.Enter))
+            if (CurrentProcess != Process.Running && inputHelper.KeyPressed(Keys.Enter))
             {
                 Reset();
             }
@@ -133,7 +184,7 @@ namespace Tetris.LevelObjects
 
         }
 
-        void DetectHorizontalMatch(int x, int y, ref int rowsCleared)
+        void DetectHorizontalMatch(int y)
         {
  
             for (int i = 0; i < GridWidth; i++)
@@ -142,15 +193,17 @@ namespace Tetris.LevelObjects
                     return;
             }
 
-
             for (int i = 0; i < GridWidth; i++)
-                blockGrid[i, y] = null;
-                    
+            {
+                blockGrid[i, y].Color = Color.DimGray;
+
+            }
+
 
             rowsCleared++;
         }
 
-        void MoveDown(int x, int y, ref int spacesBelow)
+        void MoveDown(int x, int y)
         {
 
             int horizontalSpacesClear = 0;
@@ -172,6 +225,7 @@ namespace Tetris.LevelObjects
                 }
             }
 
+            
             if (spacesBelow > 0 && blockGrid[x, y] != null)
                     blockGrid[x, y].MoveInDirection(new Point(0, spacesBelow));
 
@@ -179,7 +233,7 @@ namespace Tetris.LevelObjects
 
         }
 
-        private void AddToScore(ref int rowsCleared)
+        private void AddToScore()
         {
             int lineScore = 0;
             switch (rowsCleared)
@@ -225,18 +279,14 @@ namespace Tetris.LevelObjects
             targetRowsToClear = 10;
             descensionTimer = 1;
             level = 1;
-            isRunning = true;
+            CurrentProcess = Process.Running;
             Score = 0;
-
-
 
             for (int y = 0; y < GridHeight; y++)
                 for (int x = 0; x < GridWidth; x++)
                     blockGrid[x, y] = null;
 
             LoadShape();
-
-            
         }
 
         public Vector2 GetCellPosition(int x, int y)

@@ -20,7 +20,7 @@ namespace Tetris.LevelObjects
         float timer, startTimer;
         bool speedDown = false;
         float timeToMoveHorizontally, startTimeToMoveHorizontally, moveHorizontalTime, startMoveHorizontalTime;
-        GameTime dt;
+      
         protected int blockIndex;
         bool isLeftKeyHeld = false;
         bool isRightKeyHeld = false;
@@ -413,6 +413,8 @@ namespace Tetris.LevelObjects
                 },
             };
         }
+
+        public GameState Level { get { return (Level)ExtendedGame.GameStateManager.GetGameState(Game1.STATE_PLAYINGSCENE); } }
 
     }
 }
