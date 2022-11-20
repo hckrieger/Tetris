@@ -12,9 +12,9 @@ namespace Tetris.States
     internal class TitleState : GameState
     {
 
-        TextGameObject title = new TextGameObject("Fonts/ScreenTitle", 1f, Color.DeepSkyBlue, TextGameObject.Alignment.Center);
-        TextGameObject instructions = new TextGameObject("Fonts/Instructions", 1f, Color.DeepSkyBlue, TextGameObject.Alignment.Center);
-        TextGameObject credit = new TextGameObject("Fonts/DebugFont", 1f, Color.DeepSkyBlue, TextGameObject.Alignment.Center);
+        TextGameObject title = new TextGameObject("Fonts/ScreenTitle", 1f, Color.GhostWhite, TextGameObject.Alignment.Center);
+        TextGameObject instructions = new TextGameObject("Fonts/Instructions", 1f, Color.GhostWhite, TextGameObject.Alignment.Center);
+        TextGameObject credit = new TextGameObject("Fonts/DebugFont", 1f, Color.GhostWhite, TextGameObject.Alignment.Center);
 
         public TitleState()
         {
@@ -33,7 +33,7 @@ namespace Tetris.States
             gameObjects.AddChild(instructions);
 
             credit.Text = "   Programmed by  Hunter Krieger";
-            credit.LocalPosition = new Vector2(310, 680);
+            credit.LocalPosition = new Vector2(310, 650);
             gameObjects.AddChild(credit);
 
 
