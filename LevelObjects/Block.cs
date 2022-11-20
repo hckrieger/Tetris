@@ -7,16 +7,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tetris.States;
 
 namespace Tetris.LevelObjects
 {
     class Block : SpriteGameObject
     {
         public Point gridPosition { get; set; }
-        Level level;
+        PlayingState level;
         public bool LockedIn { get; set; }
 
-        public Block(Level level, Point gridPosition, int spriteIndex) : base("Sprites/blocks@7x1", .5f, spriteIndex)
+        public Block(PlayingState level, Point gridPosition, int spriteIndex) : base("Sprites/blocks@7x1", .5f, spriteIndex)
         {
             this.gridPosition = gridPosition;
             this.level = level;

@@ -10,6 +10,7 @@ namespace Tetris
     public class Game1 : ExtendedGame
     {
         public static string STATE_PLAYINGSCENE = "playing";
+        public static string STATE_STARTSCREEN = "title";
 
         public Game1()
         {
@@ -24,8 +25,9 @@ namespace Tetris
 
             // TODO: use this.Content to load your game content here
 
-            GameStateManager.AddGameState(STATE_PLAYINGSCENE, new Level());
-            GameStateManager.SwitchTo(STATE_PLAYINGSCENE);
+            GameStateManager.AddGameState(STATE_PLAYINGSCENE, new PlayingState());
+            GameStateManager.AddGameState(STATE_STARTSCREEN, new TitleState());
+            GameStateManager.SwitchTo(STATE_STARTSCREEN);
         }
 
     }

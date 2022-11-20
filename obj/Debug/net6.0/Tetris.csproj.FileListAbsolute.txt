@@ -29,3 +29,5 @@ C:\Users\hunte\source\repos\MonoGame\games\Tetris\bin\Debug\net6.0\Content\Sprit
 C:\Users\hunte\source\repos\MonoGame\games\Tetris\bin\Debug\net6.0\Content\Fonts\DebugFont.xnb
 C:\Users\hunte\source\repos\MonoGame\games\Tetris\bin\Debug\net6.0\Content\Sprites\blocks@7x1.xnb
 C:\Users\hunte\source\repos\MonoGame\games\Tetris\bin\Debug\net6.0\Content\Fonts\Score.xnb
+C:\Users\hunte\source\repos\MonoGame\games\Tetris\bin\Debug\net6.0\Content\Fonts\ScreenTitle.xnb
+C:\Users\hunte\source\repos\MonoGame\games\Tetris\bin\Debug\net6.0\Content\Fonts\Instructions.xnb

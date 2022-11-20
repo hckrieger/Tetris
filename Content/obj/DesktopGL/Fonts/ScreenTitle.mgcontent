@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <SourceFile>C:/Users/hunte/source/repos/MonoGame/games/Tetris/Content/Fonts/Score.spritefont</SourceFile>
-  <SourceTime>2022-11-14T18:35:44.995464-05:00</SourceTime>
-  <DestFile>C:/Users/hunte/source/repos/MonoGame/games/Tetris/Content/bin/DesktopGL/Fonts/Score.xnb</DestFile>
-  <DestTime>2022-11-20T17:00:43.4525719-05:00</DestTime>
+  <SourceFile>C:/Users/hunte/source/repos/MonoGame/games/Tetris/Content/Fonts/ScreenTitle.spritefont</SourceFile>
+  <SourceTime>2022-11-20T17:16:10.0784302-05:00</SourceTime>
+  <DestFile>C:/Users/hunte/source/repos/MonoGame/games/Tetris/Content/bin/DesktopGL/Fonts/ScreenTitle.xnb</DestFile>
+  <DestTime>2022-11-20T17:35:43.1675804-05:00</DestTime>
   <Importer>FontDescriptionImporter</Importer>
   <ImporterTime>2018-12-08T11:35:54-05:00</ImporterTime>
   <Processor>FontDescriptionProcessor</Processor>

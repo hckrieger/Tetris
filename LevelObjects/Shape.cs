@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tetris.States;
 
 namespace Tetris.LevelObjects
 {
@@ -14,7 +15,7 @@ namespace Tetris.LevelObjects
     {
         public Block[] Blocks { get; set; } = new Block[4];
         Point gridPosition;
-        Level level;
+        PlayingState level;
         protected Point[,,] blockPlacement;
         int rotationIndex = 1;
         float timer, startTimer;
@@ -34,7 +35,7 @@ namespace Tetris.LevelObjects
 
         public ShapeState CurrentShapeState { get; set; } = ShapeState.ShapeActive;
 
-        public Shape(Level level, Point gridPosition, int blockIndex, float timer)
+        public Shape(PlayingState level, Point gridPosition, int blockIndex, float timer)
         {
             this.level = level;
             this.gridPosition = gridPosition;
@@ -58,6 +59,17 @@ namespace Tetris.LevelObjects
         {
             base.HandleInput(inputHelper);
 
+            if (inputHelper.KeyDown(Keys.Down))
+            {
+                if (!speedDown)
+                    timer = 0;
+
+                speedDown = true;
+
+            }
+            else
+                speedDown = false;
+
 
             if (inputHelper.KeyPressed(Keys.Left))
                 HorizontalMovement(new Point(-1, 0));
@@ -80,16 +92,6 @@ namespace Tetris.LevelObjects
                 isRightKeyHeld = false;
 
 
-            if (inputHelper.KeyDown(Keys.Down))
-            {
-                if (!speedDown)
-                    timer = 0;
-
-                speedDown = true;
-
-            }
-            else
-                speedDown = false;
 
             //if (CurrentShapeState == ShapeState.ShapeDisabled)
             //    return;
@@ -432,7 +434,7 @@ namespace Tetris.LevelObjects
             };
         }
 
-        public GameState Level { get { return (Level)ExtendedGame.GameStateManager.GetGameState(Game1.STATE_PLAYINGSCENE); } }
+        public GameState Level { get { return (PlayingState)ExtendedGame.GameStateManager.GetGameState(Game1.STATE_PLAYINGSCENE); } }
 
     }
 }
